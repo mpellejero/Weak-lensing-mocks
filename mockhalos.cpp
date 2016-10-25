@@ -1,7 +1,7 @@
 /*
  * multiplane.cpp
  *
- *  Created on: Jan 11, 2012
+ *  Created on: Oct 25, 2016
  *      Author: bmetcalf
  *
  *      This program is for testing the adaptive griding on a random field by adapting to the
