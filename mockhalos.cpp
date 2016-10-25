@@ -2,7 +2,7 @@
  * multiplane.cpp
  *
  *  Created on: Oct 25, 2016
- *      Author: bmetcalf
+ *      Author: bmetcalf & mpellejero
  *
  *      This program is for testing the adaptive griding on a random field by adapting to the
  *      high convergence regions.
