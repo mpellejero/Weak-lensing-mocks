@@ -1,0 +1,28 @@
+#		SAMPLE PARAMETER FILE
+#		lines that begin with # are commented out
+#		
+#		outputfile is common to all lens models
+#		so are zlens and zsource at the moment
+
+
+outputfile         Vipers_w4_4/vipers_w4_  # will contain the image magnifications
+
+
+deflection_off          false
+field_Nplanes           30          # # number of lens planes
+field_fov               1.0e4       # # field of view in square arcseconds
+
+field_input_simulation_path     /Users/bmetcalf/WorkSpace/MultiDarkData/halo_lightcones_VIPERS/W4_haloes/mock_004.dat
+field_input_simulation_format   MultiDark
+field_input_simulation_center_RA     -332.749823
+field_input_simulation_center_DEC    1.620611
+#field_input_simulation_radius        0.8
+
+field_internal_profile  NFW         # # DM internal profile type: 0 or nolens, 1 or NFW, 2 or PseudoNFW, 3 or PowerLaw, 4 or NSIE, 5 or AnaLens, 6 or UniLens, 7 or MOKALens, 8 or DummyLens
+
+field_off               false
+main_halo_on            false       # # 0: no main halo, 1 or else - a main halo
+
+z_source                3.00        # # source redshift
+Omega_matter             0.307115
+Omega_lambda             0.692885
