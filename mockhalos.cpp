@@ -192,14 +192,16 @@ int main(int arg,char **argv){
   //size_t NpixY = (size_t)(NpixX*fieldrangeY/fieldrangeX + 0.5);
   //NpixY=NpixX;
   
-  PixelMap map(center,NpixX,NpixY,fieldrangeX*degreesTOradians/(NpixX-1));
+  //  PixelMap map(center,NpixX,NpixY,fieldrangeX*degreesTOradians/(NpixX-1));
 
+
+  
     //for(int i=0;i<zss.size();++i){
         for(int i=0;i<1;++i){
         
     lens.ResetSourcePlane(zss[i],false);
     cout << "   making Grid for source plane " + std::to_string(i) << "...." << endl;
-    GridMap grid(&lens,NpixX/10.0,center,fieldrangeX*degreesTOradians,fieldrangeY*degreesTOradians);
+    GridMap grid(&lens,NpixX/5.0,center,fieldrangeX*degreesTOradians,fieldrangeY*degreesTOradians);
     
     /*PixelMap map(center,NpixX,NpixY,fieldrangeX*degreesTOradians/(NpixX-1));
     map.AddGrid(grid,KAPPA);
@@ -228,7 +230,8 @@ int main(int arg,char **argv){
     params.get("outputfile",tag);
     tag = "!" + tag + std::to_string(i);
             
-    grid.writePixelMapUniform(map,KAPPA);
+    //    grid.writePixelMapUniform(map,KAPPA);
+    PixelMap map=grid.writePixelMapUniform(KAPPA);
     map.printFITS(tag + ".kappa.fits");
     std::vector<PosType> pspectrum(58),multipole(58);
     map.PowerSpectrum(pspectrum,multipole);
