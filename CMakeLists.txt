@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 # project settings
 ####
 
-project(MockHalos)
+project(WeakLensing_mocks)
 
 set(sample_VERSION_MAJOR 1)
 set(sample_VERSION_MINOR 0)
@@ -23,7 +23,7 @@ set(HEADERS
 ####
 
 set(SOURCES
-        mockhalos.cpp
+	mockhalos.cpp
 )
 
 
@@ -40,8 +40,8 @@ include_directories(${GLAMER_INCLUDE_DIRS})
 # build
 ####
 
-add_executable(MockHalos ${HEADERS} ${SOURCES})
+add_executable(WeakLensing_mocks ${HEADERS} ${SOURCES})
 
-target_link_libraries(MockHalos ${GLAMER_LIBRARIES})
+target_link_libraries(WeakLensing_mocks ${GLAMER_LIBRARIES})
 
 
