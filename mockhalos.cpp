@@ -21,12 +21,51 @@
 //#include <geometry.h>
 #include "elliptic.h"
 #include "gridmap.h"
+#include "lightcone_construction.h"
 
 using namespace std;
 
 static std::mutex barrier;
 
 int main(int arg,char **argv){
+  
+  {
+    
+    COSMOLOGY cosmo(Planck1yr);
+    Point_3d xo,v;
+    int Nsnaps = 1;
+
+    v[0] = 3.54674;
+    v[1] = 1.12347;
+    v[2] = 13.69941;
+    
+    std::vector<LightCone::DataRockStar> conehalos;
+    conehalos.reserve(100000);
+    LightCone cone(degreesTOradians);
+    
+    std::vector<std::string> filenames(Nsnaps);
+    filenames[0] = "file_example.dat";
+    std::vector<double> redshifts(Nsnaps + 1);
+    redshifts[0] = 0.0;
+    redshifts[1] = 1.0;
+    
+    for(int i=0 ; i < Nsnaps ; ++i){
+  
+      cone.ReadBoxRockStar(filenames[i],xo,v
+                           ,cosmo.coorDist(redshifts[i])
+                           ,cosmo.coorDist(redshifts[i+1])
+                           ,conehalos);
+      
+      std::cout << "Number of halos in the cone: " << conehalos.size() << std::endl;
+    }
+    
+    LightCone::WriteLightCone("cone_output", conehalos);
+    
+    //std::vector<LensHalo *> lensVec;
+    //LightCone::ReadLightCone("cone_output",cosmo,lensVec);
+    
+    exit(0);
+  }
  
   /******************** test PixelMap::PowerSpectrum **************************
   {
