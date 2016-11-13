@@ -67,15 +67,15 @@ int main(int arg,char **argv){
     cout << "   making fits images for source plane " + std::to_string(i) << "...." << endl;
     std::string tag;
     params.get("outputfile",tag);
-    tag = "!" + tag + std::to_string(i);
+    tag = tag + std::to_string(zss[i]);
     
     //    grid.writePixelMapUniform(map,KAPPA);
     PixelMap map=grid.writePixelMapUniform(KAPPA);
-    map.printFITS(tag + ".kappa.fits");
+    map.printFITS("!" + tag + ".kappa.fits");
     std::vector<PosType> pspectrum(58),multipole(58);
     map.PowerSpectrum(pspectrum,multipole);
     
-    std::ofstream ps_file(tag + "PS" + std::to_string(zss[i]) + ".csv");
+    std::ofstream ps_file(tag + "PS" + ".csv");
     ps_file << "l,PS" << endl;
     
     for(int i=0;i<pspectrum.size();++i){
@@ -86,17 +86,17 @@ int main(int arg,char **argv){
     ps_file.close();
     
     grid.writePixelMapUniform(map,GAMMA);
-    map.printFITS(tag + std::to_string(zss[i]) +".gamma.fits");
+    map.printFITS("!" + tag + ".gamma.fits");
     grid.writePixelMapUniform(map,GAMMA1);
-    map.printFITS(tag + std::to_string(zss[i]) +".gamma1.fits");
+    map.printFITS("!" + tag + ".gamma1.fits");
     grid.writePixelMapUniform(map,GAMMA2);
-    map.printFITS(tag + std::to_string(zss[i]) +".gamma2.fits");
+    map.printFITS("!" + tag + ".gamma2.fits");
     grid.writePixelMapUniform(map,ALPHA);
-    map.printFITS(tag + std::to_string(zss[i]) +".alpha.fits");
+    map.printFITS("!" + tag + ".alpha.fits");
     grid.writePixelMapUniform(map,ALPHA1);
-    map.printFITS(tag + std::to_string(zss[i]) +".alpha1.fits");
+    map.printFITS("!" + tag + ".alpha1.fits");
     grid.writePixelMapUniform(map,ALPHA2);
-    map.printFITS(tag + std::to_string(zss[i]) +".alpha2.fits");
+    map.printFITS("!" + tag + ".alpha2.fits");
   }
   
   cout << "   finished" << endl;
