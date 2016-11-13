@@ -11,7 +11,7 @@ deflection_off          false
 field_Nplanes           30          # # number of lens planes
 field_fov               1.0e7       # # field of view in square arcseconds
 
-field_input_simulation_path    cone_output1.csv
+field_input_simulation_path    ../Cones/cone_output1.csv
 field_input_simulation_format   LightConeFormat
 field_input_simulation_center_RA     0.0
 field_input_simulation_center_DEC    0.0
