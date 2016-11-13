@@ -52,12 +52,12 @@ int main(int arg,char **argv){
   std::vector<PosType> zss = {3.0,2.0,1.0,0.5};
 
   PosType center[2] = {0,0};
-  size_t NpixX = 512;
+  size_t NpixX = 512*2;
   
-  NpixX = 64;
+  //NpixX = 64;
   
-  //for(int i=0;i<zss.size();++i){
-  for(int i=0;i<1;++i){
+  for(int i=0;i<zss.size();++i){
+  //for(int i=0;i<1;++i){
         
     lens.ResetSourcePlane(zss[i],false);
     cout << "   making Grid for source plane " + std::to_string(i) << "...." << endl;
