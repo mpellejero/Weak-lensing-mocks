@@ -54,15 +54,18 @@ int main(int arg,char **argv){
   PosType center[2] = {0,0};
   size_t NpixX = 512*2;
   
+  //NpixX = 64;
   
-    //for(int i=0;i<zss.size();++i){
-  for(int i=0;i<1;++i){
+  for(int i=0;i<zss.size();++i){
+  //for(int i=0;i<1;++i){
         
     lens.ResetSourcePlane(zss[i],false);
     cout << "   making Grid for source plane " + std::to_string(i) << "...." << endl;
     GridMap grid(&lens,NpixX,center,1.3*degreesTOradians);
     
-    cout << "   making fits images for source plane " + std::to_string(i) << "...." << endl;
+    cout << "   making fits images for source plane " + std::to_string(i)
+    << " ...." << endl;
+   
     std::string tag;
     params.get("outputfile",tag);
     tag = "!" + tag + std::to_string(i);
