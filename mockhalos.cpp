@@ -29,6 +29,8 @@ static std::mutex barrier;
 
 int main(int arg,char **argv){
 
+  time_t t0,t1;
+  time(&t0);
   long seed = -1827674;
 
   printf("initializing model\n");
@@ -52,11 +54,11 @@ int main(int arg,char **argv){
   params.print_unused();
 
   PosType center[2] = {0,0};
-  size_t NpixX = 512*2;
+  size_t NpixX = 512;
   
   
-    //for(int i=0;i<zss.size();++i){
-  for(int i=0;i<1;++i){
+    for(int i=0;i<zss.size();++i){
+  //for(int i=0;i<1;++i){
         
     lens.ResetSourcePlane(zss[i],false);
     cout << "   making Grid for source plane " + std::to_string(i) << "...." << endl;
@@ -98,6 +100,8 @@ int main(int arg,char **argv){
   }
   
   cout << "   finished" << endl;
+  time(&t1);
+  cout << "   time: " << difftime(t1,t0) << endl;
   return 0;
 }
 
