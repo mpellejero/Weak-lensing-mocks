@@ -11,15 +11,15 @@ deflection_off          false
 field_Nplanes           30          # # number of lens planes
 field_fov               1.0e7       # # field of view in square arcseconds
 
-field_input_simulation_path    ../Cones/cone_output7.csv
+field_input_simulation_path    cone_output7.csv
 field_input_simulation_format   LightConeFormat
 field_input_simulation_center_RA     0.0
 field_input_simulation_center_DEC    0.0
 #field_input_simulation_radius        0.8
 
 field_internal_profile  NFW         # # DM internal profile type: 0 or nolens, 1 or NFW, 2 or PseudoNFW, 3 or PowerLaw, 4 or NSIE, 5 or AnaLens, 6 or UniLens, 7 or MOKALens, 8 or DummyLens
-#field_mass_func_type     ST
-#field_min_mass           1.0e11
+field_mass_func_type     ST
+field_min_mass           6.0e10
 
 
 field_off               false
