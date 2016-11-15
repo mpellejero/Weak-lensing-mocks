@@ -52,7 +52,7 @@ int main(int arg,char **argv){
   std::vector<PosType> zss = {3.0,2.0,1.0,0.5};
 
   PosType center[2] = {0,0};
-  size_t NpixX = 512*2;
+  size_t NpixX = 512;
   
   //NpixX = 64;
   
