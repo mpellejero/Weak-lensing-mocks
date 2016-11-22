@@ -1,3 +1,4 @@
+
 /*
  * multiplane.cpp
  *
@@ -38,21 +39,24 @@ int main(int arg,char **argv){
   if(arg > 1) paramfile.assign(argv[1],strlen(argv[1]));
   else paramfile = "ParamFiles/paramfile_field";
   cout << "using parameter file: " << paramfile << endl;
-  
+
+  if(arg > 2) seed = stoi(argv[2]);
+
+  cout << " seed = " << seed << endl;
   cout << "Create model" << endl;
   
   InputParams params(paramfile);
 
   // Make maps from Halo catalogs
-  Lens lens(params,&seed,Planck1yr,false);
+  Lens lens(params,&seed,BigMultiDark,false);
   
   // source redhsifts
   //std::vector<PosType> zss = {2.297,2.119,1.955,1.802,1.66,1.527, 1.403, 1.287, 1.178, 1.075,0.9774, 0.8854, 0.7982, 0.7154,0.6365,0.5612, 0.4892,0.4201, 0.3538,0.2899, 0.2282,0.1686, 0.1108, 0.05465};
 
-  std::vector<PosType> zss = {3.0,2.0,1.0,0.5};
+  std::vector<PosType> zss = {2.297,1.075,0.4892};
 
   PosType center[2] = {0,0};
-  size_t NpixX = 512;
+  size_t NpixX = 512*2;
   
   //NpixX = 64;
   
@@ -61,7 +65,7 @@ int main(int arg,char **argv){
         
     lens.ResetSourcePlane(zss[i],false);
     cout << "   making Grid for source plane " + std::to_string(i) << "...." << endl;
-    GridMap grid(&lens,NpixX,center,1.3*degreesTOradians);
+    GridMap grid(&lens,NpixX,center,3*1.3*degreesTOradians);
     
     cout << "   making fits images for source plane " + std::to_string(i)
     << " ...." << endl;
@@ -69,7 +73,7 @@ int main(int arg,char **argv){
     std::string tag;
     params.get("outputfile",tag);
     tag = tag + std::to_string(zss[i]);
-    tag = "Output/" + tag;
+    tag = "Output_3deg_1Rvir_large/" + tag;
     
     //    grid.writePixelMapUniform(map,KAPPA);
     PixelMap map=grid.writePixelMapUniform(KAPPA);
