@@ -24,12 +24,51 @@
 #include "gridmap.h"
 #include "lightcone_construction.h"
 
+
+class TestClass{
+  
+  int i;
+  
+public:
+  TestClass(int ii):i(ii){}
+  double func(double x) const{ return x*i;}
+  
+};
+
+
 using namespace std;
 
 static std::mutex barrier;
 
 int main(int arg,char **argv){
 
+  /*{
+    COSMOLOGY c(BigMultiDark);
+    
+    cout << c.rho_crit(0)*c.getOmega_matter() << " Msun/Mpc^3" <<endl;
+    
+    double sigma = 0.1,res=arcsecTOradians;
+    Point_2d center;
+    PixelMap map(center.x,1000,1000,res);
+     Utilities::RandomNumbers_NR ran(1277);
+    
+    
+    for(size_t i=0; i<map.size() ;++i){
+      map[i] = sigma*ran.gauss();
+    }
+    
+    std::vector<double> ps(10),ll(10);
+    
+    map.PowerSpectrum(ps,ll,1,false,true);
+    for(int i=0 ; i < ps.size() ; ++i){
+      cout << ll[i] << "  " << ps[i] << endl;
+    }
+    
+    cout << 1.0/sqrt(map.size()) << endl;
+    cout << res*res*sigma*sigma/pi/pi/4 << endl;
+    //exit(1);
+  }*/
+  
   time_t t0,t1;
   time(&t0);
   long seed = -1827674;
@@ -38,6 +77,7 @@ int main(int arg,char **argv){
   string paramfile;
   if(arg > 1) paramfile.assign(argv[1],strlen(argv[1]));
   else paramfile = "ParamFiles/paramfile_field";
+  
   cout << "using parameter file: " << paramfile << endl;
 
   if(arg > 2) seed = stoi(argv[2]);
@@ -79,7 +119,7 @@ int main(int arg,char **argv){
     PixelMap map=grid.writePixelMapUniform(KAPPA);
     map.printFITS("!" + tag + ".kappa.fits");
     std::vector<PosType> pspectrum(40),multipole(40);
-    map.PowerSpectrum(pspectrum,multipole);
+    map.PowerSpectrum(pspectrum,multipole,1,false,true);
     
     std::ofstream ps_file(tag + "PS" + ".csv");
     ps_file << "l,PS" << endl;
