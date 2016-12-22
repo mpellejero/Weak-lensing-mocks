@@ -113,7 +113,7 @@ int main(int arg,char **argv){
     std::string tag;
     params.get("outputfile",tag);
     tag = tag + std::to_string(zss[i]);
-    tag = "Output_3deg_1Rvir_large/" + tag;
+    tag = "Output_3deg_Rsp-Alias/" + tag;
     
     //    grid.writePixelMapUniform(map,KAPPA);
     PixelMap map=grid.writePixelMapUniform(KAPPA);
