@@ -42,53 +42,34 @@ static std::mutex barrier;
 
 int main(int arg,char **argv){
 
-  /*{
-    COSMOLOGY c(BigMultiDark);
-    
-    cout << c.rho_crit(0)*c.getOmega_matter() << " Msun/Mpc^3" <<endl;
-    
-    double sigma = 0.1,res=arcsecTOradians;
-    Point_2d center;
-    PixelMap map(center.x,1000,1000,res);
-     Utilities::RandomNumbers_NR ran(1277);
-    
-    
-    for(size_t i=0; i<map.size() ;++i){
-      map[i] = sigma*ran.gauss();
-    }
-    
-    std::vector<double> ps(10),ll(10);
-    
-    map.PowerSpectrum(ps,ll,1,false,true);
-    for(int i=0 ; i < ps.size() ; ++i){
-      cout << ll[i] << "  " << ps[i] << endl;
-    }
-    
-    cout << 1.0/sqrt(map.size()) << endl;
-    cout << res*res*sigma*sigma/pi/pi/4 << endl;
-    //exit(1);
-  }*/
   
   time_t t0,t1;
   time(&t0);
   long seed = -1827674;
-
-  printf("initializing model\n");
-  string paramfile;
-  if(arg > 1) paramfile.assign(argv[1],strlen(argv[1]));
-  else paramfile = "ParamFiles/paramfile_field";
   
-  cout << "using parameter file: " << paramfile << endl;
-
-  if(arg > 2) seed = stoi(argv[2]);
+  // set cosmology, might need to be changed
+  COSMOLOGY cosmo(BigMultiDark);
+  
+  std::vector<LensHaloParticles *> halovec;
+  
+  float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are used
+  float particle_size = 60*arcsecTOradians; // angular size of particles
+  
+  // read in light cone
+  cout << "Readiing in particles ... " << endl;
+  LightCone::ReadLightConeParticles("Cone/cone_particles0.csv", cosmo, halovec,10,particle_mass,particle_size,true,true);
+  
+  // create an empty lens
+  cout << "Constructing lens ... " << endl;
+  Lens lens(&seed,3,cosmo);
+  
+  // insert the particles into the lens
+  for(auto ptr_halo : halovec){
+    lens.insertMainHalo(ptr_halo,true);
+  }
+  std::cout << "Number of planes : " << lens.getNplanes() << std::endl;
 
   cout << " seed = " << seed << endl;
-  cout << "Create model" << endl;
-  
-  InputParams params(paramfile);
-
-  // Make maps from Halo catalogs
-  Lens lens(params,&seed,BigMultiDark,false);
   
   // source redhsifts
   //std::vector<PosType> zss = {2.297,2.119,1.955,1.802,1.66,1.527, 1.403, 1.287, 1.178, 1.075,0.9774, 0.8854, 0.7982, 0.7154,0.6365,0.5612, 0.4892,0.4201, 0.3538,0.2899, 0.2282,0.1686, 0.1108, 0.05465};
@@ -100,7 +81,7 @@ int main(int arg,char **argv){
   
   //NpixX = 64;
   
-  for(int i=0;i<zss.size();++i){
+  for(int i=0;i<zss.size();++i){  // loop through source redshifts
   //for(int i=0;i<1;++i){
         
     lens.ResetSourcePlane(zss[i],false);
@@ -110,10 +91,7 @@ int main(int arg,char **argv){
     cout << "   making fits images for source plane " + std::to_string(i)
     << " ...." << endl;
    
-    std::string tag;
-    params.get("outputfile",tag);
-    tag = tag + std::to_string(zss[i]);
-    tag = "Output_3deg_Rsp-Alias/" + tag;
+    std::string tag = "Output_particles/output_zs" + std::to_string(zss[i]);
     
     //    grid.writePixelMapUniform(map,KAPPA);
     PixelMap map=grid.writePixelMapUniform(KAPPA);
@@ -127,7 +105,7 @@ int main(int arg,char **argv){
     for(int i=0;i<pspectrum.size();++i){
       ps_file << multipole[i] << "," << pspectrum[i] << endl;
 
-      cout << multipole[i] << "   " << multipole[i]*multipole[i]*pspectrum[i] << endl;
+      //cout << multipole[i] << "   " << multipole[i]*multipole[i]*pspectrum[i] << endl;
     }
     ps_file.close();
     
