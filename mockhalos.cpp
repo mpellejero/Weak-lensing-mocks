@@ -42,10 +42,11 @@ static std::mutex barrier;
 
 int main(int arg,char **argv){
 
-  
   time_t t0,t1;
   time(&t0);
   long seed = -1827674;
+  
+  const std::string dir = "Output_particles/";
   
   // set cosmology, might need to be changed
   COSMOLOGY cosmo(BigMultiDark);
@@ -55,9 +56,17 @@ int main(int arg,char **argv){
   float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are used
   float particle_size = 60*arcsecTOradians; // angular size of particles
   
+  std::string datafile;
+  if(arg == 2){
+    datafile = "Cone/cone_particles0.csv";
+  }else{
+    datafile = argv[3];
+  }
+
   // read in light cone
-  cout << "Readiing in particles ... " << endl;
-  LightCone::ReadLightConeParticles("Cone/cone_particles0.csv", cosmo, halovec,10,particle_mass,particle_size,true,true);
+  cout << "Reading in particles from " << datafile << " ... " << endl;
+  LightCone::ReadLightConeParticles(datafile, cosmo, halovec,10,particle_mass,particle_size
+                                    ,true,false);
   
   // create an empty lens
   cout << "Constructing lens ... " << endl;
@@ -68,8 +77,6 @@ int main(int arg,char **argv){
     lens.insertMainHalo(ptr_halo,true);
   }
   std::cout << "Number of planes : " << lens.getNplanes() << std::endl;
-
-  cout << " seed = " << seed << endl;
   
   // source redhsifts
   //std::vector<PosType> zss = {2.297,2.119,1.955,1.802,1.66,1.527, 1.403, 1.287, 1.178, 1.075,0.9774, 0.8854, 0.7982, 0.7154,0.6365,0.5612, 0.4892,0.4201, 0.3538,0.2899, 0.2282,0.1686, 0.1108, 0.05465};
@@ -90,8 +97,16 @@ int main(int arg,char **argv){
     
     cout << "   making fits images for source plane " + std::to_string(i)
     << " ...." << endl;
-   
-    std::string tag = "Output_particles/output_zs" + std::to_string(zss[i]);
+    
+    std::string tag;
+    if(arg == 1){
+      tag = '0';
+    }else{
+      tag = argv[1];
+    }
+    tag = dir + "testmap" + tag + "_" ;
+    cout << tag << endl;
+
     
     //    grid.writePixelMapUniform(map,KAPPA);
     PixelMap map=grid.writePixelMapUniform(KAPPA);
