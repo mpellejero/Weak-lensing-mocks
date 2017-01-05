@@ -104,7 +104,7 @@ int main(int arg,char **argv){
     }else{
       tag = argv[1];
     }
-    tag = dir + "testmap" + tag + "_" ;
+    tag = dir + "testmap" + tag + "_" + std::to_string(zss[i]);
     cout << tag << endl;
 
     
