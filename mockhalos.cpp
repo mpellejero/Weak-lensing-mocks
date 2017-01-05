@@ -57,10 +57,10 @@ int main(int arg,char **argv){
   float particle_size = 60*arcsecTOradians; // angular size of particles
   
   std::string datafile;
-  if(arg == 2){
+  if(arg != 3){
     datafile = "Cone/cone_particles0.csv";
   }else{
-    datafile = argv[3];
+    datafile = argv[2];
   }
 
   // read in light cone
@@ -99,7 +99,7 @@ int main(int arg,char **argv){
     << " ...." << endl;
     
     std::string tag;
-    if(arg == 1){
+    if(arg < 2){
       tag = '0';
     }else{
       tag = argv[1];
