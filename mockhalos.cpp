@@ -51,7 +51,6 @@ int main(int arg,char **argv){
   // set cosmology, might need to be changed
   COSMOLOGY cosmo(BigMultiDark);
   
-  std::vector<LensHaloParticles *> halovec;
   
   float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are used
   float particle_size = 6*arcsecTOradians; // angular size of particles
@@ -65,8 +64,12 @@ int main(int arg,char **argv){
 
   // read in light cone
   cout << "Reading in particles from " << datafile << " ... " << endl;
-  LightCone::ReadLightConeParticles(datafile, cosmo, halovec,10,particle_mass,particle_size
-                                    ,true,false);
+  //std::vector<LensHaloParticles *> halovec;
+  //LightCone::ReadLightConeParticles(datafile, cosmo, halovec,10,particle_mass,particle_size
+  //                                  ,true,false);
+
+  std::vector<LensHaloMassMap *> halovec;
+  LightCone::ReadLightConeParticles(datafile,cosmo,halovec,10,particle_mass,particle_size);
   
   // create an empty lens
   cout << "Constructing lens ... " << endl;
