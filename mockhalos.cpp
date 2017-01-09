@@ -46,14 +46,14 @@ int main(int arg,char **argv){
   time(&t0);
   long seed = -1827674;
   
-  const std::string dir = "Output_particles_random/";
+  const std::string dir = "Output_particles_maps/";
   
   // set cosmology, might need to be changed
   COSMOLOGY cosmo(BigMultiDark);
   
   
   float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are used
-  float particle_size = 6*arcsecTOradians; // angular size of particles
+  float particle_size = 2.5*60*arcsecTOradians; // angular size of particles
   
   std::string datafile;
   if(arg != 3){
@@ -69,7 +69,7 @@ int main(int arg,char **argv){
   //                                  ,true,false);
 
   std::vector<LensHaloMassMap *> halovec;
-  LightCone::ReadLightConeParticles(datafile,cosmo,halovec,10,particle_mass,particle_size);
+  LightCone::ReadLightConeParticles(datafile,cosmo,halovec,20,particle_mass,particle_size);
   
   // create an empty lens
   cout << "Constructing lens ... " << endl;
@@ -87,8 +87,9 @@ int main(int arg,char **argv){
   std::vector<PosType> zss = {2.297,1.075,0.4892};
 
   PosType center[2] = {0,0};
-  size_t NpixX = 512*2;
-  
+  //size_t NpixX = 512*2;
+ 
+  size_t NpixX = 3*sqrt(2.)*degreesTOradians/particle_size/1.5;
   //NpixX = 64;
   
   for(int i=0;i<zss.size();++i){  // loop through source redshifts
@@ -96,7 +97,7 @@ int main(int arg,char **argv){
         
     lens.ResetSourcePlane(zss[i],false);
     cout << "   making Grid for source plane " + std::to_string(i) << "...." << endl;
-    GridMap grid(&lens,NpixX,center,3*1.3*degreesTOradians);
+    GridMap grid(&lens,NpixX,center,3*sqrt(2)*degreesTOradians);
     
     cout << "   making fits images for source plane " + std::to_string(i)
     << " ...." << endl;
