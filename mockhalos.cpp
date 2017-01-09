@@ -46,7 +46,7 @@ int main(int arg,char **argv){
   time(&t0);
   long seed = -1827674;
   
-  const std::string dir = "Output_particles/";
+  const std::string dir = "Output_particles_random/";
   
   // set cosmology, might need to be changed
   COSMOLOGY cosmo(BigMultiDark);
@@ -54,7 +54,7 @@ int main(int arg,char **argv){
   std::vector<LensHaloParticles *> halovec;
   
   float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are used
-  float particle_size = 60*arcsecTOradians; // angular size of particles
+  float particle_size = 6*arcsecTOradians; // angular size of particles
   
   std::string datafile;
   if(arg != 3){
