@@ -53,7 +53,7 @@ int main(int arg,char **argv){
   COSMOLOGY cosmo(BigMultiDark);
   
   
-  float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are used
+ float particle_mass = 2.359e10*cosmo.gethubble()/0.005;   // 0.5% of particles are  used
   float particle_size = 2.5*60*arcsecTOradians; // angular size of particles
   
   std::string datafile;
@@ -69,11 +69,11 @@ int main(int arg,char **argv){
   //LightCone::ReadLightConeParticles(datafile, cosmo, halovec,20,particle_mass,particle_size,true,false);
 
   std::vector<LensHaloNFW *> halo_vec;
-  LightCone::ReadLightConeNFW(<#std::string filename#>,cosmo,halo_vec,
-                              3);
+//  LightCones::ReadLightConeNFW(<#std::string filename#>,cosmo,halo_vec,
+//                              3);
 
   std::vector<LensHaloMassMap *> particle_vec;
-  LightCone::ReadLightConeParticles(datafile,cosmo,particle_vec,20,particle_mass,particle_size);
+  LightCones::ReadLightConeParticles(datafile,cosmo,particle_vec,20,particle_mass,particle_size);
   
   // create an empty lens
   cout << "Constructing lens ... " << endl;
@@ -81,7 +81,7 @@ int main(int arg,char **argv){
   
   // insert the particles into the lens
   for(auto ptr_halo : particle_vec){
-    lens.insertMainHalo(ptr_halo,true);
+    lens.insertMainHalo(ptr_halo,ptr_halo->getZlens(),true);
   }
   std::cout << "Number of planes : " << lens.getNplanes() << std::endl;
   
