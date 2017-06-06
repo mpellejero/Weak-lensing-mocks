@@ -46,7 +46,8 @@ int main(int arg,char **argv){
   time(&t0);
   long seed = -1827674;
   
-  const std::string dir = "Output_particles_maps/";
+ // const std::string dir = "Output_particles_maps/";
+  const std::string dir = "Output_3deg_150arcmin/";
   
   // set cosmology, might need to be changed
   COSMOLOGY cosmo(BigMultiDark);
@@ -65,18 +66,21 @@ int main(int arg,char **argv){
   // read in light cone
   cout << "Reading in particles from " << datafile << " ... " << endl;
   //std::vector<LensHaloParticles *> halovec;
-  //LightCone::ReadLightConeParticles(datafile, cosmo, halovec,10,particle_mass,particle_size
-  //                                  ,true,false);
+  //LightCone::ReadLightConeParticles(datafile, cosmo, halovec,20,particle_mass,particle_size,true,false);
 
-  std::vector<LensHaloMassMap *> halovec;
-  LightCone::ReadLightConeParticles(datafile,cosmo,halovec,20,particle_mass,particle_size);
+  std::vector<LensHaloNFW *> halo_vec;
+  LightCone::ReadLightConeNFW(<#std::string filename#>,cosmo,halo_vec,
+                              3);
+
+  std::vector<LensHaloMassMap *> particle_vec;
+  LightCone::ReadLightConeParticles(datafile,cosmo,particle_vec,20,particle_mass,particle_size);
   
   // create an empty lens
   cout << "Constructing lens ... " << endl;
   Lens lens(&seed,3,cosmo);
   
   // insert the particles into the lens
-  for(auto ptr_halo : halovec){
+  for(auto ptr_halo : particle_vec){
     lens.insertMainHalo(ptr_halo,true);
   }
   std::cout << "Number of planes : " << lens.getNplanes() << std::endl;
